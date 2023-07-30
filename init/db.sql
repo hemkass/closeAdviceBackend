@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `team`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `team` (
-`idTeam` bigint(20) NOT NULL AUTO_INCREMENT,
+`idTeam` int NOT NULL AUTO_INCREMENT,
 `label` varchar(50) DEFAULT NULL,
 `creationDate` datetime NOT NULL DEFAULT current_timestamp(),
 `updateDate` datetime DEFAULT NULL,
@@ -54,8 +54,8 @@ DROP TABLE IF EXISTS `refresh_token`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `refresh_token` (
-`idRefreshToken` bigint(20) NOT NULL AUTO_INCREMENT,
-`idUser` bigint(20) NOT NULL,
+`idRefreshToken` int(20) NOT NULL AUTO_INCREMENT,
+`idUser` int(20) NOT NULL,
 `refreshToken`varchar(500) NOT NULL,
 `creationDate` datetime NOT NULL DEFAULT current_timestamp(),
 `updateDate` datetime DEFAULT NULL,
@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
-`idRole` bigint(20) NOT NULL AUTO_INCREMENT,
+`idRole` int(20) NOT NULL AUTO_INCREMENT,
 `label` varchar(50) NOT NULL,
 `creationDate` datetime NOT NULL DEFAULT current_timestamp(),
 `updateDate` datetime DEFAULT NULL,
@@ -115,7 +115,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-`idUser` bigint(20) NOT NULL AUTO_INCREMENT,
+`idUser` int(20) NOT NULL AUTO_INCREMENT,
 `email` varchar(50) NOT NULL,
 `alias` varchar(30) NOT NULL,
 `password` varchar(150) NOT NULL,
@@ -147,9 +147,9 @@ DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_role` (
-`idUserRole` bigint(20) NOT NULL AUTO_INCREMENT,
-`idUser` bigint(20) NOT NULL,
-`idRole` bigint(20) NOT NULL,
+`idUserRole` int(20) NOT NULL AUTO_INCREMENT,
+`idUser` int(20) NOT NULL,
+`idRole` int(20) NOT NULL,
 
 PRIMARY KEY (`idUserRole`),
 KEY `FK_role_TO_user_role`(`idRole`),
@@ -179,9 +179,9 @@ DROP TABLE IF EXISTS `user_team`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_team` (
-`idUserTeam` bigint(20) NOT NULL AUTO_INCREMENT,
-`idUser` bigint(20) NOT NULL,
-`idTeam` bigint(20) NOT NULL,
+`idUserTeam` int(20) NOT NULL AUTO_INCREMENT,
+`idUser` int(20) NOT NULL,
+`idTeam` int NOT NULL,
 
 PRIMARY KEY (`idUserTeam`),
 KEY `FK_team_TO_user_team`(`idTeam`),
