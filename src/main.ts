@@ -7,7 +7,6 @@ import { uptime } from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  await app.listen(3000);
 
   const configService = app.get(ConfigService);
   app.enableCors(configService.get('cors'));
@@ -21,7 +20,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/swagger', app, document);
-
+  app.enableShutdownHooks();
   await app.listen(4000);
 }
 
