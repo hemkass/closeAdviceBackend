@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersController } from '@users/controllers/users.controller';
 import corsConfig from 'config/corsConfig';
 import { ConfigModule } from '@nestjs/config';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       load: [corsConfig],
     }),
     UsersModule,
+    AuthenticationModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService],

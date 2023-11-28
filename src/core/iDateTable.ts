@@ -1,4 +1,6 @@
+import { DateType } from './date.type';
+
 export interface IDateTable {
-  creationDate?: Date | string | null;
-  updateDate?: Date | string | null;
+  creationDate?: DateType;
+  updateDate?: DateType | null;
 }

@@ -9,20 +9,20 @@ datasource db {
 }
 
 model refresh_token {
-  idRefreshToken Int       @id @default(autoincrement())
-  idUser         Int
-  refreshToken   String    @db.VarChar(500)
-  creationDate   DateTime  @default(now()) @db.DateTime(0)
-  updateDate     DateTime? @db.DateTime(0)
-  isDeleted      Boolean   @default(false)
-  deleteDate     DateTime? @db.DateTime(0)
-  user           user      @relation(fields: [idUser], references: [idUser], onUpdate: Restrict, map: "FK_user_TO_user_refresh_token")
+  id           Int       @id @default(autoincrement())
+  idUser       Int
+  refreshToken String    @db.VarChar(500)
+  creationDate DateTime  @default(now()) @db.DateTime(0)
+  updateDate   DateTime? @db.DateTime(0)
+  isDeleted    Boolean   @default(false)
+  deleteDate   DateTime? @db.DateTime(0)
+  user         user      @relation(fields: [idUser], references: [id], onUpdate: Restrict, map: "FK_user_TO_user_refresh_token")
 
   @@index([idUser], map: "FK_user_TO_refresh_token")
 }
 
 model role {
-  idRole       Int         @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   label        String      @db.VarChar(50)
   creationDate DateTime    @default(now()) @db.DateTime(0)
   updateDate   DateTime?   @db.DateTime(0)
@@ -32,7 +32,7 @@ model role {
 }
 
 model team {
-  idTeam       Int         @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   label        String?     @db.VarChar(50)
   creationDate DateTime    @default(now()) @db.DateTime(0)
   updateDate   DateTime?   @db.DateTime(0)
@@ -42,37 +42,36 @@ model team {
 }
 
 model user {
-  idUser          Int             @id @default(autoincrement())
-  email           String          @db.VarChar(50)
-  alias           String          @db.VarChar(30)
-  password        String          @db.VarChar(150)
-  isResetPassword Boolean         @default(true)
-  creationDate    DateTime        @default(now()) @db.DateTime(0)
-  updateDate      DateTime?       @db.DateTime(0)
-  isDeleted       Boolean         @default(false)
-  deleteDate      DateTime?       @db.DateTime(0)
-  refresh_token   refresh_token[]
-  user_role       user_role[]
-  user_team       user_team[]
+  id            Int             @id @default(autoincrement())
+  email         String          @db.VarChar(50)
+  alias         String          @db.VarChar(30)
+  password      String          @db.VarChar(150)
+  creationDate  DateTime        @default(now()) @db.DateTime(0)
+  updateDate    DateTime?       @db.DateTime(0)
+  isDeleted     Boolean         @default(false)
+  deleteDate    DateTime?       @db.DateTime(0)
+  refresh_token refresh_token[]
+  user_role     user_role[]
+  user_team     user_team[]
 }
 
 model user_role {
-  idUserRole Int  @id @default(autoincrement())
-  idUser     Int
-  idRole     Int
-  role       role @relation(fields: [idRole], references: [idRole], onUpdate: Restrict, map: "FK_role_TO_user_role")
-  user       user @relation(fields: [idUser], references: [idUser], onUpdate: Restrict, map: "FK_user_TO_user_role")
+  id     Int  @id @default(autoincrement())
+  idUser Int
+  idRole Int
+  role   role @relation(fields: [idRole], references: [id], onUpdate: Restrict, map: "FK_role_TO_user_role")
+  user   user @relation(fields: [idUser], references: [id], onUpdate: Restrict, map: "FK_user_TO_user_role")
 
   @@index([idRole], map: "FK_role_TO_user_role")
   @@index([idUser], map: "FK_user_TO_user_role")
 }
 
 model user_team {
-  idUserTeam Int  @id @default(autoincrement())
-  idUser     Int
-  idTeam     Int
-  team       team @relation(fields: [idTeam], references: [idTeam], onUpdate: Restrict, map: "FK_team_TO_user_team")
-  user       user @relation(fields: [idUser], references: [idUser], onUpdate: Restrict, map: "FK_user_TO_user_team")
+  id     Int  @id @default(autoincrement())
+  idUser Int
+  idTeam Int
+  team   team @relation(fields: [idTeam], references: [id], onUpdate: Restrict, map: "FK_team_TO_user_team")
+  user   user @relation(fields: [idUser], references: [id], onUpdate: Restrict, map: "FK_user_TO_user_team")
 
   @@index([idTeam], map: "FK_team_TO_user_team")
   @@index([idUser], map: "FK_user_TO_user_team")

@@ -1,4 +1,6 @@
+import { DateType } from './date.type';
+
 export interface IlogicalDelete {
   isDeleted?: boolean;
-  deleteDate?: Date | string | null;
+  deleteDate?: DateType | null;
 }
