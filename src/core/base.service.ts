@@ -11,7 +11,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
   ) {}
   abstract create(entity: T): Promise<T>;
 
-  async getAll(): Promise<T> {
+  async getAll(): Promise<T[]> {
     return await this.repository.getAll();
   }
 

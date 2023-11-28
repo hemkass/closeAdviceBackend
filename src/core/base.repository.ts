@@ -22,7 +22,7 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
     exception: new (msg: string) => TException,
   ): Promise<T> {
     const entity = await this._model.findUnique({ where: { id: id } });
-    if (!entity?.id) {
+    if (!entity?.id || entity?.isDeleted === true) {
       throw new exception(`No entity found with id ${id}`);
     } else return entity;
   }

@@ -1,6 +1,6 @@
-import { PFSException } from '@core/exceptions/PFSException';
+import { CloseAdviceException } from '@/core/exceptions/closeAdviceException';
 
-export class UserAlreadyExistsException extends PFSException {
+export class UserAlreadyExistsException extends CloseAdviceException {
   constructor(message: string) {
     super(message);
   }

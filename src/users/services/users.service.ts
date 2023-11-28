@@ -42,28 +42,31 @@ export class UsersService extends BaseService<User> implements IUsersService {
     return super.getById(idUser);
   }
 
-  async throwIfEmailAlreadyExists(
-    email: string,
-    idUser?: bigint,
-  ): Promise<void> {
-    const existence = await this.usersRepository.isEmailAlreadyExisting(
-      email,
-      idUser,
-    );
+  async getUserByEmail(email: string): Promise<User> {
+    if (!email) {
+      throw new ArgumentRequireException('Email Mandatory');
+    }
+    const user = await this.usersRepository.getByEmail(email);
+
+    return user;
+  }
+
+  async throwIfEmailAlreadyExists(email: string): Promise<void> {
+    const existence = await this.usersRepository.emailAlreadyExists(email);
     if (existence) {
       throw new UserAlreadyExistsException(`Email ${email} is already taken`);
     }
   }
 
-  getAll(): Promise<User> {
-    throw new NotImplementedException('Method not implemented.');
+  getAll(): Promise<User[]> {
+    return super.getAll();
   }
 
   delete(id: number): Promise<void> {
-    throw new NotImplementedException('Method not implemented.');
+    return this.usersRepository.delete(id);
   }
   update(entity: Partial<User>): Promise<User> {
-    throw new NotImplementedException('Method not implemented.');
+    return this.usersRepository.update(entity);
   }
   exist(id: number): Promise<boolean> {
     throw new NotImplementedException('Method not implemented.');

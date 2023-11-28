@@ -15,7 +15,8 @@ export class UsersRepository
   constructor(private prisma: PrismaService) {
     super(prisma.user);
   }
-  findAll(): Promise<User[]> {
+  getAll(): Promise<User[]> {
+    console.log('hey');
     return super.getAll({ where: { isDeleted: false } });
   }
   getById(id: number): Promise<User> {
@@ -40,6 +41,27 @@ export class UsersRepository
     return user === 1;
   }
 
+  async emailAlreadyExists(email: string): Promise<boolean> {
+    const user = await this.prisma.user.count({
+      where: { AND: { email: email, isDeleted: false } },
+    });
+    return user >= 1;
+  }
+
+  async getByEmail(email: string): Promise<User> {
+    if (!email) {
+      throw new ArgumentRequireException('Email required');
+    }
+    const user = await this.prisma.user.findFirst({
+      where: { AND: { email: email, isDeleted: false } },
+    });
+
+    if (!user) {
+      throw new UserNotFoundException(`No user ${email} found`);
+    }
+    return user;
+  }
+
   async update(data: Partial<User>): Promise<User> {
     if (!data?.id) {
       throw new ArgumentRequireException(`Id mandatory`);
@@ -50,7 +72,7 @@ export class UsersRepository
       data: data,
     });
 
-    if (!user?.id && user?.isDeleted) {
+    if (!user?.id || user?.isDeleted) {
       throw new UserNotFoundException(`User ${data.id} not found`);
     } else {
       return user;
