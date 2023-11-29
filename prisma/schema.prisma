@@ -76,3 +76,48 @@ model user_team {
   @@index([idTeam], map: "FK_team_TO_user_team")
   @@index([idUser], map: "FK_user_TO_user_team")
 }
+
+model genre {
+  id           Int           @id @default(autoincrement())
+  label        String        @db.VarChar(50)
+  idIMBD       Int
+  creationDate DateTime      @default(now()) @db.DateTime(0)
+  updateDate   DateTime?     @db.DateTime(0)
+  isDeleted    Boolean       @default(false)
+  deleteDate   DateTime?     @db.DateTime(0)
+  genre_movie  genre_movie[]
+}
+
+model genre_movie {
+  id           Int       @id @default(autoincrement())
+  idGenre      Int
+  idMovie      Int
+  creationDate DateTime  @default(now()) @db.DateTime(0)
+  updateDate   DateTime? @db.DateTime(0)
+  isDeleted    Boolean   @default(false)
+  deleteDate   DateTime? @db.DateTime(0)
+  movie        movie     @relation(fields: [idMovie], references: [id], onUpdate: Restrict, map: "FK_movie_TO_genre_movie")
+  genre        genre     @relation(fields: [idGenre], references: [id], onUpdate: Restrict, map: "FK_user_TO_genre_movie")
+
+  @@index([idGenre], map: "FK_genre_TO_genre_movie")
+  @@index([idMovie], map: "FK_movie_TO_genre_movie")
+}
+
+model movie {
+  id                Int           @id @default(autoincrement())
+  genre             Int
+  idIMBD            Int
+  original_language String        @db.VarChar(50)
+  originalTitle     String?       @db.VarChar(50)
+  overview          String?       @db.VarChar(500)
+  posterPath        String?       @db.VarChar(500)
+  releaseDate       DateTime?     @db.DateTime(0)
+  viewDate          DateTime?     @db.DateTime(0)
+  review            String?       @db.VarChar(500)
+  rating            Float?        @db.Float
+  creationDate      DateTime      @default(now()) @db.DateTime(0)
+  updateDate        DateTime?     @db.DateTime(0)
+  isDeleted         Boolean       @default(false)
+  deleteDate        DateTime?     @db.DateTime(0)
+  genre_movie       genre_movie[]
+}

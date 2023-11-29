@@ -17,10 +17,117 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+
+--
+-- Table structure for table `genre`
+--
+DROP TABLE IF EXISTS `genre`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `genre` (
+`id` int NOT NULL AUTO_INCREMENT,
+`label` varchar(50)  NOT NULL ,
+`idIMBD`  int NOT NULL,
+`creationDate` datetime NOT NULL DEFAULT current_timestamp(),
+`updateDate` datetime DEFAULT NULL,
+`isDeleted` tinyint(1) NOT NULL DEFAULT 0,
+`deleteDate` datetime DEFAULT NULL,
+PRIMARY KEY (`id`)
+) 
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `genre`
+--
+
+LOCK TABLES `genre` WRITE;
+/*!40000 ALTER TABLE `genre` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `genre` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `genre_movie`
+--
+DROP TABLE IF EXISTS `genre_movie`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `genre_movie` (
+`id` int NOT NULL AUTO_INCREMENT,
+`idGenre` int NOT NULL,
+`idMovie` int NOT NULL,
+`creationDate` datetime NOT NULL DEFAULT current_timestamp(),
+`updateDate` datetime DEFAULT NULL,
+`isDeleted` tinyint(1) NOT NULL DEFAULT 0,
+`deleteDate` datetime DEFAULT NULL,
+PRIMARY KEY (`id`),
+KEY `FK_movie_TO_genre_movie`(`idMovie`),
+CONSTRAINT `FK_movie_TO_genre_movie` FOREIGN KEY(`idMovie`) REFERENCES `movie`(`id`),
+KEY `FK_genre_TO_genre_movie`(`idGenre`),
+CONSTRAINT `FK_user_TO_genre_movie` FOREIGN KEY(`idGenre`) REFERENCES `genre`(`id`)
+) 
+
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `genre_movie`
+--
+
+LOCK TABLES `genre_movie` WRITE;
+/*!40000 ALTER TABLE `genre_movie` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `genre_movie` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+
+
+--
+-- Table structure for table `movie`
+--
+
+DROP TABLE IF EXISTS `movie`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `movie` (
+`id` int NOT NULL AUTO_INCREMENT,
+`genre` int NOT NULL ,
+`idIMBD` int NOT NULL ,
+`original_language` varchar(50)  NOT NULL ,
+`originalTitle` varchar(50) DEFAULT NULL,
+`overview` varchar(500) DEFAULT NULL,
+`posterPath` varchar(500) DEFAULT NULL,
+`releaseDate` datetime DEFAULT NULL,
+`viewDate` datetime DEFAULT NULL,
+`review` varchar(500) DEFAULT NULL,
+`rating` float DEFAULT NULL,
+`creationDate` datetime NOT NULL DEFAULT current_timestamp(),
+`updateDate` datetime DEFAULT NULL,
+`isDeleted` tinyint(1) NOT NULL DEFAULT 0,
+`deleteDate` datetime DEFAULT NULL,
+PRIMARY KEY (`id`)) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `movie`
+--
+
+LOCK TABLES `movie` WRITE;
+/*!40000 ALTER TABLE `movie` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `movie` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 --
 -- Table structure for table `team`
 --
-
 DROP TABLE IF EXISTS `team`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -31,7 +138,9 @@ CREATE TABLE `team` (
 `updateDate` datetime DEFAULT NULL,
 `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
 `deleteDate` datetime DEFAULT NULL,
-PRIMARY KEY (`id`)) 
+PRIMARY KEY (`id`)
+)
+ 
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
