@@ -96,15 +96,13 @@ DROP TABLE IF EXISTS `movie`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `movie` (
 `id` int NOT NULL AUTO_INCREMENT,
-`genre` int NOT NULL ,
-`idIMBD` int NOT NULL ,
-`original_language` varchar(50)  NOT NULL ,
+`idIMBD` int  DEFAULT NULL  ,
+`originalLanguage` varchar(50)  NOT NULL ,
 `originalTitle` varchar(50) DEFAULT NULL,
-`overview` varchar(500) DEFAULT NULL,
+`overview` varchar(1000) DEFAULT NULL,
 `posterPath` varchar(500) DEFAULT NULL,
 `releaseDate` datetime DEFAULT NULL,
 `viewDate` datetime DEFAULT NULL,
-`review` varchar(500) DEFAULT NULL,
 `rating` float DEFAULT NULL,
 `creationDate` datetime NOT NULL DEFAULT current_timestamp(),
 `updateDate` datetime DEFAULT NULL,
@@ -180,11 +178,77 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- Dumping data for table `refresh_token`
 --
 
+
 LOCK TABLES `refresh_token` WRITE;
 /*!40000 ALTER TABLE `refresh_token` DISABLE KEYS */;
 
 /*!40000 ALTER TABLE `refresh_token` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Table structure for table `refresh-token`
+--
+
+DROP TABLE IF EXISTS `review`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `review` (
+`id` int(20) NOT NULL AUTO_INCREMENT,
+`idMovie` int(20) ,
+`comment`varchar(3000) NOT NULL,
+`creationDate` datetime NOT NULL DEFAULT current_timestamp(),
+`updateDate` datetime DEFAULT NULL,
+`isDeleted` tinyint(1) NOT NULL DEFAULT 0,
+`deleteDate` datetime DEFAULT NULL,
+PRIMARY KEY (`id`),
+KEY `FK_movie_TO_review`(`idMovie`),
+CONSTRAINT `FK_movie_TO_movie_review` FOREIGN KEY(`idMovie`) REFERENCES `movie`(`id`)) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `review`
+--
+
+LOCK TABLES `review` WRITE;
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `user_review`
+--
+
+DROP TABLE IF EXISTS `user_review`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_review` (
+`id` int(20) NOT NULL AUTO_INCREMENT,
+`idUser` int(20) NOT NULL,
+`idReview` int(20) NOT NULL,
+
+PRIMARY KEY (`id`),
+KEY `FK_review_TO_user_review`(`idReview`),
+CONSTRAINT `FK_review_TO_user_review` FOREIGN KEY(`idReview`) REFERENCES `review`(`id`),
+KEY `FK_user_TO_user_review`(`idUser`),
+CONSTRAINT `FK_user_TO_user_review` FOREIGN KEY(`idUser`) REFERENCES `user`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_review`
+--
+
+LOCK TABLES `user_review` WRITE;
+/*!40000 ALTER TABLE `user_review` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `user_review` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 
 --
 -- Table structure for table `role`

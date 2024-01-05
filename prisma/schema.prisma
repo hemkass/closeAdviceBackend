@@ -8,6 +8,50 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model genre {
+  id           Int           @id @default(autoincrement())
+  label        String        @db.VarChar(50)
+  idIMBD       Int
+  creationDate DateTime      @default(now()) @db.DateTime(0)
+  updateDate   DateTime?     @db.DateTime(0)
+  isDeleted    Boolean       @default(false)
+  deleteDate   DateTime?     @db.DateTime(0)
+  genre_movie  genre_movie[]
+}
+
+model genre_movie {
+  id           Int       @id @default(autoincrement())
+  idGenre      Int
+  idMovie      Int
+  creationDate DateTime  @default(now()) @db.DateTime(0)
+  updateDate   DateTime? @db.DateTime(0)
+  isDeleted    Boolean   @default(false)
+  deleteDate   DateTime? @db.DateTime(0)
+  movie        movie     @relation(fields: [idMovie], references: [id], onUpdate: Restrict, map: "FK_movie_TO_genre_movie")
+  genre        genre     @relation(fields: [idGenre], references: [id], onUpdate: Restrict, map: "FK_user_TO_genre_movie")
+
+  @@index([idGenre], map: "FK_genre_TO_genre_movie")
+  @@index([idMovie], map: "FK_movie_TO_genre_movie")
+}
+
+model movie {
+  id               Int           @id @default(autoincrement())
+  idIMBD           Int?
+  originalLanguage String        @db.VarChar(50)
+  originalTitle    String?       @db.VarChar(50)
+  overview         String?       @db.VarChar(1000)
+  posterPath       String?       @db.VarChar(500)
+  releaseDate      DateTime?     @db.DateTime(0)
+  viewDate         DateTime?     @db.DateTime(0)
+  rating           Float?        @db.Float
+  creationDate     DateTime      @default(now()) @db.DateTime(0)
+  updateDate       DateTime?     @db.DateTime(0)
+  isDeleted        Boolean       @default(false)
+  deleteDate       DateTime?     @db.DateTime(0)
+  genre_movie      genre_movie[]
+  review           review[]
+}
+
 model refresh_token {
   id           Int       @id @default(autoincrement())
   idUser       Int
@@ -19,6 +63,20 @@ model refresh_token {
   user         user      @relation(fields: [idUser], references: [id], onUpdate: Restrict, map: "FK_user_TO_user_refresh_token")
 
   @@index([idUser], map: "FK_user_TO_refresh_token")
+}
+
+model review {
+  id           Int           @id @default(autoincrement())
+  idMovie      Int?
+  comment      String        @db.VarChar(3000)
+  creationDate DateTime      @default(now()) @db.DateTime(0)
+  updateDate   DateTime?     @db.DateTime(0)
+  isDeleted    Boolean       @default(false)
+  deleteDate   DateTime?     @db.DateTime(0)
+  movie        movie?        @relation(fields: [idMovie], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "FK_movie_TO_movie_review")
+  user_review  user_review[]
+
+  @@index([idMovie], map: "FK_movie_TO_review")
 }
 
 model role {
@@ -51,8 +109,20 @@ model user {
   isDeleted     Boolean         @default(false)
   deleteDate    DateTime?       @db.DateTime(0)
   refresh_token refresh_token[]
+  user_review   user_review[]
   user_role     user_role[]
   user_team     user_team[]
+}
+
+model user_review {
+  id       Int    @id @default(autoincrement())
+  idUser   Int
+  idReview Int
+  review   review @relation(fields: [idReview], references: [id], onUpdate: Restrict, map: "FK_review_TO_user_review")
+  user     user   @relation(fields: [idUser], references: [id], onUpdate: Restrict, map: "FK_user_TO_user_review")
+
+  @@index([idReview], map: "FK_review_TO_user_review")
+  @@index([idUser], map: "FK_user_TO_user_review")
 }
 
 model user_role {
@@ -75,49 +145,4 @@ model user_team {
 
   @@index([idTeam], map: "FK_team_TO_user_team")
   @@index([idUser], map: "FK_user_TO_user_team")
-}
-
-model genre {
-  id           Int           @id @default(autoincrement())
-  label        String        @db.VarChar(50)
-  idIMBD       Int
-  creationDate DateTime      @default(now()) @db.DateTime(0)
-  updateDate   DateTime?     @db.DateTime(0)
-  isDeleted    Boolean       @default(false)
-  deleteDate   DateTime?     @db.DateTime(0)
-  genre_movie  genre_movie[]
-}
-
-model genre_movie {
-  id           Int       @id @default(autoincrement())
-  idGenre      Int
-  idMovie      Int
-  creationDate DateTime  @default(now()) @db.DateTime(0)
-  updateDate   DateTime? @db.DateTime(0)
-  isDeleted    Boolean   @default(false)
-  deleteDate   DateTime? @db.DateTime(0)
-  movie        movie     @relation(fields: [idMovie], references: [id], onUpdate: Restrict, map: "FK_movie_TO_genre_movie")
-  genre        genre     @relation(fields: [idGenre], references: [id], onUpdate: Restrict, map: "FK_user_TO_genre_movie")
-
-  @@index([idGenre], map: "FK_genre_TO_genre_movie")
-  @@index([idMovie], map: "FK_movie_TO_genre_movie")
-}
-
-model movie {
-  id                Int           @id @default(autoincrement())
-  genre             Int
-  idIMBD            Int
-  original_language String        @db.VarChar(50)
-  originalTitle     String?       @db.VarChar(50)
-  overview          String?       @db.VarChar(500)
-  posterPath        String?       @db.VarChar(500)
-  releaseDate       DateTime?     @db.DateTime(0)
-  viewDate          DateTime?     @db.DateTime(0)
-  review            String?       @db.VarChar(500)
-  rating            Float?        @db.Float
-  creationDate      DateTime      @default(now()) @db.DateTime(0)
-  updateDate        DateTime?     @db.DateTime(0)
-  isDeleted         Boolean       @default(false)
-  deleteDate        DateTime?     @db.DateTime(0)
-  genre_movie       genre_movie[]
 }

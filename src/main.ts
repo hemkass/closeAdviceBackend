@@ -9,7 +9,7 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   app.enableCors(configService.get('cors'));
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('v0');
   const config = new DocumentBuilder()
     .setTitle('CloseAdvice')
     .setDescription('ask advice for your books and series from yours relatives')

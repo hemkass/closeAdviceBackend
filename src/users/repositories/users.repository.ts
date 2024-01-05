@@ -80,14 +80,14 @@ export class UsersRepository
   }
 
   async delete(idUser: number): Promise<void> {
-    let absence: Partial<User> = { id: idUser };
-    absence.updateDate = new Date();
-    absence.deleteDate = new Date();
-    absence.isDeleted = true;
+    let user: Partial<User> = { id: idUser };
+    user.updateDate = new Date();
+    user.deleteDate = new Date();
+    user.isDeleted = true;
 
     await this.prisma.user.update({
       where: { id: idUser },
-      data: absence,
+      data: user,
     });
   }
 }

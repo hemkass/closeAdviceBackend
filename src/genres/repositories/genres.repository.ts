@@ -39,6 +39,24 @@ export class GenresRepository
     return genre === 1;
   }
 
+  async IsGenreExistingByIdIMBD(idIMBD: number): Promise<boolean> {
+    const genre = await this.prisma.genre.count({
+      where: { AND: { idIMBD: idIMBD, isDeleted: false } },
+    });
+    return genre === 1;
+  }
+
+  async getGenreByIdIMBD(idIMBD: number): Promise<Genre> {
+    const genre = await this.prisma.genre.findFirst({
+      where: { AND: { idIMBD: idIMBD, isDeleted: false } },
+    });
+    if (!genre?.id || genre?.isDeleted) {
+      throw new GenreNotFoundException(
+        `No genre found for this idIMBD ${idIMBD}`,
+      );
+    } else return genre;
+  }
+
   async update(data: Partial<Genre>): Promise<Genre> {
     if (!data?.id) {
       throw new ArgumentRequireException(`Id mandatory`);

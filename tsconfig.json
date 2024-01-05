@@ -20,6 +20,8 @@
     "paths": {
       "@root": ["."],
       "@/*": ["src/*"],
+      "@movies/*": ["src/movies/*"],
+      "@reviews/*": ["src/reviews/*"],
       "@prismaClient/*": ["prisma/*"],
       "@users/*": ["src/users/*"]
     }

@@ -1,1 +1,3 @@
-export default () => ({ cors: { origin: [process.env.CORS_FRONT] } });
+export default () => ({
+  cors: { origin: [process.env.CORS_FRONT], credentials: true },
+});
