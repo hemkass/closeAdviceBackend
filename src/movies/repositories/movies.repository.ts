@@ -17,7 +17,6 @@ export class MoviesRepository
     super(prisma.movie);
   }
   getAll(): Promise<Movie[]> {
-    console.log('repo');
     return super.getAll({ where: { isDeleted: false } });
   }
   getById(id: number): Promise<Movie> {

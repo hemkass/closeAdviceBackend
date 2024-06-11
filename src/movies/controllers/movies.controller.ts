@@ -72,7 +72,6 @@ export class MoviesController {
   @Get('/saved/all')
   async getAllMovieSaved(): Promise<Movie[]> {
     try {
-      console.log('get all');
       return await this.moviesService.getAll();
     } catch (error) {
       console.error(error);

@@ -50,7 +50,6 @@ export class ReviewsController {
     @Param('idMovie') idMovie: string,
   ): Promise<UserReview | void> {
     try {
-      console.log('ma requête', request);
       /*  return await this.reviewsService.findAReviewByIdUserByType(); */
     } catch (error) {
       console.error(error);

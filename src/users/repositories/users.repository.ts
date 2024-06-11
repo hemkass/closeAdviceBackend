@@ -16,7 +16,6 @@ export class UsersRepository
     super(prisma.user);
   }
   getAll(): Promise<User[]> {
-    console.log('hey');
     return super.getAll({ where: { isDeleted: false } });
   }
   getById(id: number): Promise<User> {

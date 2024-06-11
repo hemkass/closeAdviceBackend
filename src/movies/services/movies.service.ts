@@ -26,7 +26,7 @@ export class MoviesService
       const response = await axios.get(
         `https://api.themoviedb.org/3/search/movie?api_key=${process.env.IMBD_KEY}&query=${label}&language=en-US&page=1`,
       );
-      console.log(response);
+
       if (!response?.data) {
         throw new MovieNotFoundException('No movie found');
       }
@@ -64,7 +64,6 @@ export class MoviesService
   }
 
   getAll(): Promise<Movie[]> {
-    console.log('service');
     return super.getAll();
   }
 
