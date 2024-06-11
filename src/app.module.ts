@@ -1,3 +1,4 @@
+import { ReviewsController } from './reviews/controllers/reviews.controller';
 import { UsersModule } from '@users/users.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -26,7 +27,12 @@ import { ReviewsModule } from './reviews/reviews.module';
     GenresModule,
     ReviewsModule,
   ],
-  controllers: [AppController, UsersController, MoviesController],
+  controllers: [
+    AppController,
+    UsersController,
+    MoviesController,
+    ReviewsController,
+  ],
   providers: [AppService],
 })
 export class AppModule {}

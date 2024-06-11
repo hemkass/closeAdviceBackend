@@ -4,6 +4,5 @@ export class Review extends EntityBase {
   id?: number;
   idMovie: number | null;
   idUser?: number;
-  idReview: number;
   comment: string;
 }

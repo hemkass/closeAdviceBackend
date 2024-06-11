@@ -56,9 +56,10 @@ export class MoviesController {
     }
   }
   @ApiOperation({ summary: 'fetch movie detail from IMDB' })
-  @Get('/:label')
-  async getUserById(@Param('label') label: string): Promise<Movie> {
+  @Get('/details/:label')
+  async getMovieById(@Param('label') label: string): Promise<Movie> {
     try {
+      console.log('hello', label);
       return await this.moviesService.fetchMovieInIMDB(label);
     } catch (error) {
       console.error(error);
