@@ -7,6 +7,8 @@ import { UsersController } from '@users/controllers/users.controller';
 import corsConfig from 'config/corsConfig';
 import { ConfigModule } from '@nestjs/config';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { MoviesModule } from './movies/movies.module';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
     }),
     UsersModule,
     AuthenticationModule,
+    MoviesModule,
+    GenresModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService],
